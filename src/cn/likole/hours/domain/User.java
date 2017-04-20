@@ -17,9 +17,10 @@ public class User {
     private String email;
     private String phone;
     private Byte gender;
+    private String token;
 
     @Id
-    @Column(name = "uid")
+    @Column(name = "uid", nullable = false)
     public int getUid() {
         return uid;
     }
@@ -29,7 +30,7 @@ public class User {
     }
 
     @Basic
-    @Column(name = "name")
+    @Column(name = "name", nullable = true, length = 15)
     public String getName() {
         return name;
     }
@@ -39,7 +40,7 @@ public class User {
     }
 
     @Basic
-    @Column(name = "password")
+    @Column(name = "password", nullable = true, length = 32)
     public String getPassword() {
         return password;
     }
@@ -49,7 +50,7 @@ public class User {
     }
 
     @Basic
-    @Column(name = "avator")
+    @Column(name = "avator", nullable = true, length = 100)
     public String getAvator() {
         return avator;
     }
@@ -59,7 +60,7 @@ public class User {
     }
 
     @Basic
-    @Column(name = "email")
+    @Column(name = "email", nullable = true, length = 320)
     public String getEmail() {
         return email;
     }
@@ -69,7 +70,7 @@ public class User {
     }
 
     @Basic
-    @Column(name = "phone")
+    @Column(name = "phone", nullable = true, length = 11)
     public String getPhone() {
         return phone;
     }
@@ -79,7 +80,7 @@ public class User {
     }
 
     @Basic
-    @Column(name = "gender")
+    @Column(name = "gender", nullable = true)
     public Byte getGender() {
         return gender;
     }
@@ -116,5 +117,15 @@ public class User {
         result = 31 * result + (phone != null ? phone.hashCode() : 0);
         result = 31 * result + (gender != null ? gender.hashCode() : 0);
         return result;
+    }
+
+    @Basic
+    @Column(name = "token", nullable = false, length = 32)
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 }

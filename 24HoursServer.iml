@@ -4,6 +4,7 @@
     <facet type="hibernate" name="Hibernate">
       <configuration>
         <datasource-map>
+          <unit-entry name="a.xml" value="bcc463cb-dbea-4f76-ae25-6f4e5548bf32" />
           <unit-entry name="sessionFactory" value="dataSource" />
         </datasource-map>
         <naming-strategy-map />
@@ -23,6 +24,8 @@
           <fileset id="s2fileset" name="Default File Set " removed="false">
             <file>file://$MODULE_DIR$/src/struts.xml</file>
             <file>jar://$MODULE_DIR$/lib/struts2-core.jar!/struts-default.xml</file>
+            <file>jar://$MODULE_DIR$/../ePinGouServer/lib/struts2-json-plugin-2.5.10.1.jar!/struts-plugin.xml</file>
+            <file>jar://$MODULE_DIR$/lib/struts2-spring-plugin-2.5.10.1.jar!/struts-plugin.xml</file>
           </fileset>
           <propertiesKeys disabled="false" />
         </configuration>
@@ -43,10 +46,10 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="Hibernate 5.2.9-5.2.9" level="project" />
-    <orderEntry type="library" name="Spring-4.3.7.RELEASE" level="project" />
-    <orderEntry type="library" name="Struts 2-2.3.20.1" level="project" />
-    <orderEntry type="library" name="Spring MVC-4.3.7.RELEASE" level="project" />
+    <orderEntry type="library" name="Hibernate 5.2.9-5.2.9" level="application" />
+    <orderEntry type="library" name="Spring-4.3.7.RELEASE" level="application" />
+    <orderEntry type="library" name="Struts 2-2.3.20.1" level="application" />
+    <orderEntry type="library" name="Spring MVC-4.3.7.RELEASE" level="application" />
     <orderEntry type="library" name="c3p0-0.9.5.2" level="project" />
     <orderEntry type="library" name="mysql-connector-java-5.1.25-bin" level="project" />
   </component>
