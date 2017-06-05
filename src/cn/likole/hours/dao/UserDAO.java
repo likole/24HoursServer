@@ -1,7 +1,10 @@
 package cn.likole.hours.dao;
 
-import cn.likole.hours.domain.User;
+import cn.likole.hours.entity.User;
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.springframework.orm.hibernate5.HibernateCallback;
 import org.springframework.orm.hibernate5.support.HibernateDaoSupport;
 import org.springframework.stereotype.Repository;
 
@@ -48,13 +51,27 @@ public class UserDAO extends HibernateDaoSupport {
         }
     }
 
-    public String getTokenByUsername(String username) {
-        List<User> rs = (List<User>) this.getHibernateTemplate().find("from User where (email=? or phone =?)", username, username);
+    public User getByToken(String token) {
+        List<User> rs = (List<User>) this.getHibernateTemplate().find("from User where token=?", token);
         if (rs.size() > 0) {
-            return rs.get(0).getToken();
+            return rs.get(0);
         } else {
             return null;
         }
     }
 
+    public void updateBasicInfo(String token, String name, int gender) {
+        this.getHibernateTemplate().execute(new HibernateCallback<Void>() {
+
+            @Override
+            public Void doInHibernate(Session session) throws HibernateException {
+                org.hibernate.query.Query query = session.createQuery("update User user set user.name=? ,user.gender=? where token=?");
+                query.setParameter(0, name);
+                query.setParameter(1, gender);
+                query.setParameter(2, token);
+                query.executeUpdate();
+                return null;
+            }
+        });
+    }
 }

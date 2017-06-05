@@ -1,6 +1,6 @@
 package cn.likole.hours.controller;
 
-import cn.likole.hours.domain.User;
+import cn.likole.hours.entity.User;
 import cn.likole.hours.service.UserService;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
@@ -30,25 +30,79 @@ public class UserController extends ActionSupport implements ModelDriven<User> {
         return user;
     }
 
-    Map<String, Object> dataMap = new HashMap<String, Object>();
+    Map<String, Object> map = new HashMap<String, Object>();
 
-    public Map<String, Object> getDataMap() {
-        return dataMap;
+    public Map<String, Object> getMap() {
+        return map;
     }
 
     public String register() throws UnsupportedEncodingException, NoSuchAlgorithmException {
-        dataMap.put("status", userService.register(user));
+        int rsCode = userService.register(user);
+        map.put("status", rsCode);
+        if(rsCode==0)map.put("token", userService.getToken(user));
+        setMessage(rsCode);
         return SUCCESS;
     }
 
     public String login() {
         int rsCode = userService.login(user);
-        dataMap.put("status", rsCode);
-        if (rsCode == 0) {
-            dataMap.put("token", userService.getToken(user));
+        map.put("status", rsCode);
+        if(rsCode==0) map.put("token", userService.getToken(user));
+        setMessage(rsCode);
+        return SUCCESS;
+    }
+
+    public String getInfo() {
+        if (user.getToken() == null || user.getToken().length() != 32) {
+            map.put("status", 105);
+            map.put("message", "token值无效！");
+        } else {
+            map.put("status", 0);
+            User rs=userService.getInfo(user);
+            rs.setPassword("*");
+            if(rs.getAvatar()==null)rs.setAvatar("24hours.png");
+            map.put("data", rs);
         }
         return SUCCESS;
     }
 
+    public String setInfo() {
+        int rsCode=userService.updateInfo(user);
+        map.put("status",rsCode);
+        setMessage(rsCode);
+        return SUCCESS;
+    }
+
+    public String changePassword()
+    {
+        int rsCode=userService.changePassword(user);
+        map.put("status",rsCode);
+        setMessage(rsCode);
+        return SUCCESS;
+    }
+
+    private void setMessage(int rsCode)
+    {
+        switch (rsCode) {
+            case 101:
+                map.put("message", "手机号或邮箱为空!");
+                break;
+            case 102:
+                map.put("message", "密码为空或不符合要求!");
+                break;
+            case 103:
+                map.put("message", "此手机号或邮箱已被注册!");
+                break;
+            case 104:
+                map.put("message", "用户名或密码错误!");
+                break;
+            case 105:
+                map.put("message", "token值无效！");
+                break;
+            case 106:
+                map.put("message", "昵称不能为空！");
+                break;
+        }
+    }
 
 }

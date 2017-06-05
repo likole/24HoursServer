@@ -15,15 +15,15 @@ import static com.opensymphony.xwork2.Action.SUCCESS;
 @Scope("prototype")
 public class errorController {
 
-    Map<String,Object> dataMap=new HashMap<String,Object>();
+    Map<String,Object> map=new HashMap<String,Object>();
 
-    public Map<String, Object> getDataMap() {
-        return dataMap;
+    public Map<String, Object> getMap() {
+        return map;
     }
 
     public String notFound(){
-        dataMap.put("status",404);
-        dataMap.put("message","Not Found");
+        map.put("status",404);
+        map.put("message","Not Found");
         return SUCCESS;
     }
 

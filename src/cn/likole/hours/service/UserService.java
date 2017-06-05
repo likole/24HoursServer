@@ -1,7 +1,7 @@
 package cn.likole.hours.service;
 
 import cn.likole.hours.dao.UserDAO;
-import cn.likole.hours.domain.User;
+import cn.likole.hours.entity.User;
 import cn.likole.hours.util.MD5Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,6 +23,7 @@ public class UserService {
     public int register(User u) throws NoSuchAlgorithmException, UnsupportedEncodingException {
         Long time = Calendar.getInstance().getTimeInMillis();
         if (u.getPassword() == null || u.getPassword().length() != 32) return 102;
+        if(u.getName()==null) u.setName("24Hours用户");
         if (u.getPhone() != null) {
             //通过手机号注册
             if (userDAO.getByPhone(u.getPhone()) != null) return 103;
@@ -53,9 +54,29 @@ public class UserService {
 
     public String getToken(User user) {
         if (user.getPhone() != null) {
-            return userDAO.getTokenByUsername(user.getPhone());
+            return userDAO.getByPhone(user.getPhone()).getToken();
         } else {
-            return userDAO.getTokenByUsername(user.getEmail());
+            return userDAO.getByEmail(user.getEmail()).getToken();
         }
+    }
+
+    public User getInfo(User user) {
+        User rs= userDAO.getByToken(user.getToken());
+        return rs;
+    }
+
+    public int updateInfo(User user) {
+        if(user.getToken()==null||user.getToken().length()!=32) return 105;
+        if(user.getName()==null) return 106;
+        userDAO.updateBasicInfo(user.getToken(),user.getName(),user.getGender());
+        return 0;
+    }
+
+    public int changePassword(User user) {
+        if(user.getToken()==null||user.getToken().length()!=32) return 105;
+        User rs=userDAO.getByToken(user.getToken());
+        if (user.getPassword() == null || user.getPassword().length() != 32) return 102;
+        rs.setPassword(user.getPassword());
+        return 0;
     }
 }

@@ -1,0 +1,9 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="24HoursServer:war">
+    <output-path>$PROJECT_DIR$/out/artifacts/24HoursServer_war</output-path>
+    <root id="archive" name="24HoursServer_war.war">
+      <element id="artifact" artifact-name="24HoursServer:war exploded" />
+      <element id="dir-copy" path="$PROJECT_DIR$/web" />
+    </root>
+  </artifact>
+</component>

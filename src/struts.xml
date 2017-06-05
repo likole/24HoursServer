@@ -3,11 +3,13 @@
         "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
         "http://struts.apache.org/dtds/struts-2.3.dtd">
 <struts>
+    <constant name="struts.devMode" value="false"/>
     <package name="default" extends="json-default" namespace="/">
         <default-action-ref name="404"/>
         <global-results>
             <result name="500">error.jsp</result>
         </global-results>
+
         <global-exception-mappings>
             <exception-mapping exception="java.lang.Exception" result="500"/>
             <exception-mapping exception="java.sql.SQLException" result="500"/>
@@ -15,13 +17,19 @@
 
         <action name="404" class="errorController" method="notFound">
             <result type="json">
-                <param name="root">dataMap</param>
+                <param name="root">map</param>
             </result>
         </action>
 
         <action name="user_*" class="userController" method="{1}">
             <result type="json">
-                <param name="root">dataMap</param>
+                <param name="root">map</param>
+            </result>
+        </action>
+
+        <action name="pic_*" class="picController" method="{1}">
+            <result type="json">
+                <param name="root">map</param>
             </result>
         </action>
 
